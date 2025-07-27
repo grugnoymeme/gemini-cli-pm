@@ -159,7 +159,7 @@ echo -n "${COLOR_GEMINI_MAGENTA}Your choice (y/n): ${COLOR_RESET}"
 read create_new_project_response
 echo ""
 
-# Variable to store the current project directory, initialized to empty, leave it as it is
+# Variable to store the current project directory, initialized to empty
 CURRENT_PROJECT_DIR="" 
 
 if [[ "$create_new_project_response" == "y" || "$create_new_project_response" == "Y" ]]; then
@@ -189,20 +189,32 @@ if [[ "$create_new_project_response" == "y" || "$create_new_project_response" ==
 else
     projects=(*(/N))
 
-    if [ ${#projects[@]} -eq 0 ]; then
-        echo -e "${COLOR_GEMINI_MAGENTA}Error:${COLOR_RESET} No existing projects found. Exiting."
-        exit 1
+    # Get the name of the root directory to display as the first option
+    local root_dir_display_name="$(basename "$GEMINI_PROJECTS_ROOT") (Root)"
+
+    # Combine the root directory with the list of project subdirectories
+    local all_options=("$root_dir_display_name" "${projects[@]}")
+
+    if [ ${#all_options[@]} -eq 1 ]; then
+        echo -e "${COLOR_GEMINI_MAGENTA}NOTE:${COLOR_RESET} No existing projects found. Starting in the root directory."
     fi
 
-    draw_selection_box "$COLOR_GEMINI_BLUE" "Select an existing project" "${projects[@]}"
+    draw_selection_box "$COLOR_GEMINI_BLUE" "Select a project or the root directory" "${all_options[@]}"
 
     echo -n "${COLOR_GEMINI_BLUE}Your choice (number): ${COLOR_RESET}"
     read selection
 
-    if [[ "$selection" =~ ^[0-9]+$ ]] && [ "$selection" -ge 1 ] && [ "$selection" -le ${#projects[@]} ]; then
-        selected_project_name="${projects[$((selection-1))]}"
+    if [[ "$selection" =~ ^[0-9]+$ ]] && [ "$selection" -ge 1 ] && [ "$selection" -le ${#all_options[@]} ]; then
+        if [ "$selection" -eq 1 ]; then
+            # User selected the root directory, we are already there.
+            selected_project_name="."
+        else
+            # User selected a project, calculate the correct index for the 'projects' array.
+            # Selection '2' corresponds to projects[1], '3' to projects[2], etc.
+            selected_project_name="${projects[$((selection-1))]}"
+        fi
     else
-        echo -e "${COLOR_GEMINI_MAGENTA}Error:${COLOR_RESET} Invalid selection. Please enter a number between 1 and ${#projects[@]}."
+        echo -e "${COLOR_GEMINI_MAGENTA}Error:${COLOR_RESET} Invalid selection. Please enter a number between 1 and ${#all_options[@]}."
         exit 1
     fi
 
@@ -212,7 +224,7 @@ else
 fi
 
 # Call your API key everytime you run this script, before invoking gemini
-export GEMINI_API_KEY="<your_gemini_API_key_here"
+export GEMINI_API_KEY="<your_gemini_API_key_here>"
 
 echo -e "\n${COLOR_GEMINI_BLUE}Starting Gemini CLI...${COLOR_RESET}"
 # Here insert the full path to your gemini exec, so you could be also create a .desktop entry without problems
