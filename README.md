@@ -56,12 +56,12 @@ cd gemini-cli-pm
 You need to give the script execution permissions.
 
 ```bash
-chmod +x gpm_github.sh
+chmod +x gc_pm.sh
 ```
 
 ### 3. Customize the Script
 
-Open the `gpm_github.sh` file with your favorite text editor (e.g., `nano`, `vim`, `vscode`). There are **three sections** you absolutely must modify.
+Open the `gc_pm.sh` file with your favorite text editor (e.g., `nano`, `vim`, `micro`, `vscode`). There are **three sections** you absolutely must modify.
 
 <br>
 
@@ -120,7 +120,7 @@ The command will return a path, for example `/home/your_user/.nvm/versions/node/
 To start the manager, simply run the script from your terminal:
 
 ```bash
-./gpm_github.sh
+./gc_pm.sh
 ```
 
 You will be presented with a welcome screen and asked if you want to create a new project.
@@ -145,9 +145,9 @@ Tired of typing `./gpm_github.sh` every time? Create an alias! This way, when yo
     ```
 2.  Add the following line to the end of the file, making sure to use the **absolute path** to your script.
     ```bash
-    alias gemini="/absolute/path/to/gpm_github.sh"
+    alias gemini="/absolute/path/to/gc_pm.sh"
     ```
-    Example: `alias gemini="/home/emanuele/gemini-cli-pm/gpm_github.sh"`
+    Example: `alias gemini="/home/emanuele/gemini-cli-pm/gc_pm.sh"`
 3.  Save the file and reload your shell configuration.
     ```bash
     # For Zsh
@@ -173,14 +173,14 @@ If you use a Linux desktop environment, you can create a launcher to start GPM d
     Version=1.0
     Name=Gemini Project Manager
     Comment=Manager for Gemini-CLI projects
-    Exec=gnome-terminal -- /bin/zsh -c "/absolute/path/to/gpm_github.sh; exec zsh"
+    Exec=mate-terminal -- /bin/zsh -c "/absolute/path/to/gc_pm.sh; exec zsh"
     Icon=utilities-terminal
     Terminal=false
     Type=Application
     Categories=Development;Utility;
     Path=/absolute/path/to/the/script/folder/
     ```
-    > **Note:** `Exec` launches a new terminal (`gnome-terminal` in this example, you may need to change it to `konsole`, `xfce4-terminal`, etc.) that runs the script. Adding `exec zsh` at the end keeps the terminal open after Gemini closes.
+    > **Note:** `Exec` launches a new terminal (`mate-terminal` in this example, you may need to change it to `konsole`, `xfce4-terminal`, etc.) that runs the script. Adding `exec zsh` at the end keeps the terminal open after Gemini closes.
 
 3.  Save the file. You should now find "Gemini Project Manager" in your application menu!
 
