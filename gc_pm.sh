@@ -65,7 +65,7 @@ draw_info_box() {
         fi
     done
 
-    local padding=6 # Increased padding for better centering and content fit
+    local padding=6
     local box_width=$((max_len + padding))
 
     echo "${COLOR_GEMINI_MAGENTA}╭$(printf -- '─%.0s' $(seq 1 $box_width))╮${COLOR_RESET}"
@@ -84,7 +84,7 @@ draw_info_box() {
 draw_prompt_box() {
     local border_color="$1"
     local prompt_text="$2"
-    local box_width=$(( ${#prompt_text} + 6 )) # 6 = " > " + extra space
+    local box_width=$(( ${#prompt_text} + 6 ))
     local line=$(printf -- '─%.0s' $(seq 1 $((box_width - 2))))
 
     echo "${border_color}╭${line}╮${COLOR_RESET}"
@@ -107,7 +107,7 @@ draw_selection_box() {
         fi
          ((i++))
     done
-    i=1 # Reset counter
+    i=1
 
     local padding=4
     local box_width=$((max_len + padding))
@@ -189,7 +189,6 @@ if [[ "$create_new_project_response" == "y" || "$create_new_project_response" ==
 else
     projects=(*(/N))
 
-    # Get the name of the root directory to display as the first option
     local root_dir_display_name="$(basename "$GEMINI_PROJECTS_ROOT") (Root)"
 
     # Combine the root directory with the list of project subdirectories
@@ -206,11 +205,8 @@ else
 
     if [[ "$selection" =~ ^[0-9]+$ ]] && [ "$selection" -ge 1 ] && [ "$selection" -le ${#all_options[@]} ]; then
         if [ "$selection" -eq 1 ]; then
-            # User selected the root directory, we are already there.
             selected_project_name="."
         else
-            # User selected a project, calculate the correct index for the 'projects' array.
-            # Selection '2' corresponds to projects[1], '3' to projects[2], etc.
             selected_project_name="${projects[$((selection-1))]}"
         fi
     else
