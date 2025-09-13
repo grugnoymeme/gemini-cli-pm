@@ -183,10 +183,3 @@ If you use a Linux desktop environment, you can create a launcher to start GPM d
     > **Note:** `Exec` launches a new terminal (`mate-terminal` in this example, you may need to change it to `konsole`, `xfce4-terminal`, etc.) that runs the script. Adding `exec zsh` at the end keeps the terminal open after Gemini closes.
 
 3.  Save the file. You should now find "Gemini Project Manager" in your application menu!
-
----
-
-<div align="center">
-  <p><strong>Disclaimer:</strong> This is a personal utility, not an official Google tool, provided to streamline the user experience with the original Gemini CLI.</p>
-  <p>Made with ❤️ by <a href="https://github.com/grugnoymeme">grugnoymeme</a></p>
-</div>
